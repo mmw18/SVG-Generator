@@ -1,50 +1,56 @@
-const inquirer = require('inquirer');
-const colorName = require('color-name');
-const {Triangle, Circle, Square} = require('./lib/shapes');
-
+const fs = require('fs');
+const inquirer = require('inquirer')
+const { Triangle, Circle, Square } = require('./lib/shapes');
 
 function main() {
-    inquirer.createPromptModule([
-    {
-        type: 'input',
-        message: 'Enter text for your Logo, up to 3 letters',
-        name: 'logoText',
-        validate: (input) => input.length <= 3,
-    },
-    {
-        type: 'input',
-        message: 'Please enter your text-color preference, in keywords or hexadecimal number',
-        name: 'textColor'
-    },
-    {
-        type: 'list',
-        message: 'Please choose a shape:',
-        choices: ['circle', 'triangle', 'square'],
-        name: 'shape',
-    },
-    {
-        type: 'input',
-        message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
-        name: 'shapeColor'
-    },
-])
-.then ((answers) => {
-    const {text, textColor, shape, shapeColor} = answers;
-    // ensure all color input's are changed to hexidecimal
-    const newShapeColor = convertColor(shapeColor);
-    // Creating the completed shape instance, based on user's input
-    const completedShape = baseShape(shape, newShapeColor);
 
-    // Generate a SVG with user's input 
-    const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-          ${shape.render()}
+
+
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter text for your Logo, up to 3 letters',
+            name: 'text',
+            validate: (input) => input.length <= 3,
+        },
+        {
+            type: 'input',
+            message: 'Please enter your text-color preference, in keywords or hexadecimal number',
+            name: 'textColor',
+        },
+        {
+            type: 'list',
+            message: 'Please choose a shape:',
+            choices: ['circle', 'triangle', 'square'],
+            name: 'shape',
+        },
+        {
+            type: 'input',
+            message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
+            name: 'shapeColor',
+        },
+    ])
+        .then(({ text, textColor, shape, shapeColor }) => {
+
+            let userChoice;
+            switch (shape) {
+                case 'circle':
+                    userChoice = new Circle(shapeColor);
+                case 'triangle':
+                    userChoice = new Triangle(shapeColor);
+                default: //code to be used if none of the prior cases have been defined
+                    userChoice = new Square(shapeColor);
+            }
+
+
+            const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+          ${userChoice.render()}
           <text x="50%" y="50%" text-anchor="middle" fill="${textColor}">${text}</text>
         </svg>`;
 
-        // Write the SVG to a file names 'logo.svg'
-        fs.writeFileSync('logo.svg', svg);
-        console.log(chalk.green('Generated logo.svg'));
-      });
+            fs.writeFileSync(`./example/${shape}.svg`, svg);
+            console.log('Generated logo.svg');
+        });
 }
 
 
@@ -67,9 +73,9 @@ function baseShape(shape, color) {
 function convertColor(input) {
     // If the user's input can be located w/ colorName (it's not hexidecimal), we use color-name to change 
     if (colorName[input]) {
-      return `#${colorName[input].join('')}`;
+        return `#${colorName[input].join('')}`;
     }
     return input; // Returning the input if it's already a hexadecimal
-  }
+}
 
-  main();
+main();
