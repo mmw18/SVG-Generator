@@ -28,6 +28,7 @@ function main() {
             message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
             name: 'shapeColor',
         },
+        // Changing shape and color based on user input
     ]).then(({ text, textColor, shape, shapeColor }) => {
         let userChoice;
         switch (shape) {
@@ -43,17 +44,17 @@ function main() {
             default:
                 throw new Error('Invalid shape choice');
         }
-
+        // Declaring const that will be our created SVG
         const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
         ${userChoice.render()}
         <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="${textColor}">${text}</text>
       </svg>`;
-
+        // Writing created svg to svg file
         fs.writeFileSync(`./example/${shape}.svg`, svg);
         console.log('Generated logo.svg');
     });
 }
-
+// Running main function
 main();
 
 
