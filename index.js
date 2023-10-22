@@ -50,8 +50,8 @@ function main() {
         <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="${textColor}">${text}</text>
       </svg>`;
         // Writing created svg to svg file
-        fs.writeFileSync(`./example/${shape}.svg`, svg);
-        console.log('Generated logo.svg');
+        fs.writeFileSync(`./example/${shape}-logo.svg`, svg);
+        console.log(`Generated ${shape}logo.svg`);
     });
 }
 // Running main function
