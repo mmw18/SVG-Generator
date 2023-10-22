@@ -1,4 +1,4 @@
 <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="50" fill="green" />
-        <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="red">hhh</text>
+        <circle cx="150" cy="100" r="40" fill="blue" />
+        <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="yellow">cal</text>
       </svg>

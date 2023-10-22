@@ -1,15 +1,9 @@
+// Declaring variables for exported files and modules being used
 const fs = require('fs');
 const inquirer = require('inquirer');
 const { Triangle, Circle, Square } = require('./lib/shapes');
-// const colorName = require('color-name');
 
-// function convertColor(input) {
-//     if (colorName[input]) {
-//         return `#${colorName[input].join('')}`;
-//     }
-//     return input;
-// }
-
+// Main function: Getting user input, switching color and shape accordingly, creating svg & logo.svg file
 function main() {
     inquirer.prompt([
         {
@@ -22,7 +16,6 @@ function main() {
             type: 'input',
             message: 'Please enter your text-color preference, in keywords or hexadecimal number',
             name: 'textColor',
-            // filter: convertColor,
         },
         {
             type: 'list',
@@ -34,7 +27,6 @@ function main() {
             type: 'input',
             message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
             name: 'shapeColor',
-            // filter: convertColor,
         },
     ]).then(({ text, textColor, shape, shapeColor }) => {
         let userChoice;
@@ -43,8 +35,7 @@ function main() {
                 userChoice = new Circle(shapeColor);
                 break;
             case 'triangle':
-                // Provide a default size for the triangle (e.g., 50)
-                userChoice = new Triangle(shapeColor, 50);
+                userChoice = new Triangle(shapeColor);
                 break;
             case 'square':
                 userChoice = new Square(shapeColor);
