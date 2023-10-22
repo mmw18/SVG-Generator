@@ -1,14 +1,14 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const { Triangle, Circle, Square } = require('./lib/shapes');
-const colorName = require('color-name');
+// const colorName = require('color-name');
 
-function convertColor(input) {
-    if (colorName[input]) {
-        return `#${colorName[input].join('')}`;
-    }
-    return input;
-}
+// function convertColor(input) {
+//     if (colorName[input]) {
+//         return `#${colorName[input].join('')}`;
+//     }
+//     return input;
+// }
 
 function main() {
     inquirer.prompt([
@@ -22,7 +22,7 @@ function main() {
             type: 'input',
             message: 'Please enter your text-color preference, in keywords or hexadecimal number',
             name: 'textColor',
-            filter: convertColor,
+            // filter: convertColor,
         },
         {
             type: 'list',
@@ -34,7 +34,7 @@ function main() {
             type: 'input',
             message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
             name: 'shapeColor',
-            filter: convertColor,
+            // filter: convertColor,
         },
     ]).then(({ text, textColor, shape, shapeColor }) => {
         let userChoice;
