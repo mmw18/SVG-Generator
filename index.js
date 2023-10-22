@@ -1,3 +1,4 @@
+/* Declaring variables are exported files and modules being used */
 const fs = require('fs');
 const inquirer = require('inquirer')
 const { Triangle, Circle, Square } = require('./lib/shapes');
@@ -29,45 +30,48 @@ function main() {
             message: 'Please enter your shape-color preference, in keywords or hexadecimal number',
             name: 'shapeColor',
         },
-    ])
-        .then(({ text, textColor, shape, shapeColor }) => {
+    ]).then(({ text, textColor, shape, shapeColor }) => {
+        let userChoice;
+        switch (shape) {
+            case 'circle':
+                userChoice = new Circle(shapeColor);
+                break;
+            case 'triangle':
+                userChoice = new Triangle(shapeColor);
+                break;
+            case 'square':
+                userChoice = new Square(shapeColor);
+                break;
+            default:
+                throw new Error('Invalid shape choice');
+        }
 
-            let userChoice;
-            switch (shape) {
-                case 'circle':
-                    userChoice = new Circle(shapeColor);
-                case 'triangle':
-                    userChoice = new Triangle(shapeColor);
-                default: //code to be used if none of the prior cases have been defined
-                    userChoice = new Square(shapeColor);
-            }
 
+        const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+        ${userChoice.render()}
+        <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="${textColor}">${text}</text>
+      </svg>`;
 
-            const svg = `<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-          ${userChoice.render()}
-          <text x="50%" y="50%" text-anchor="middle" fill="${textColor}">${text}</text>
-        </svg>`;
-
-            fs.writeFileSync(`./example/${shape}.svg`, svg);
-            console.log('Generated logo.svg');
-        });
+        fs.writeFileSync(`./example/${shape}.svg`, svg);
+        console.log('Generated logo.svg');
+    });
 }
 
 
-/* Function to form the baseShape of the logo, using the user's input of
-shape and shape's color */
-function baseShape(shape, color) {
-    switch (shape) {
-        case 'circle':
-            return new Circle(color);
-        case 'triangle':
-            return new Triangle(color);
-        case 'square':
-            return new Square(color);
-        default: //code to be used if none of the prior cases have been defined
-            throw new Error('Invalid shape choice');
-    }
-}
+// /* Function to form the baseShape of the logo, using the user's input of
+// shape and shape's color */
+// function baseShape(shape, color) {
+//     switch (shape) {
+//         case 'circle':
+//             return new Circle(color);
+//         case 'triangle':
+//             return new Triangle(color);
+//         case 'square':
+//             return new Square(color);
+//         default: //code to be used if none of the prior cases have been defined
+//             throw new Error('Invalid shape choice');
+//     }
+// }
 
 // Function to ensure user can input both keyword and hexidecinal values for color
 function convertColor(input) {

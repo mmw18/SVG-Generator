@@ -1,4 +1,6 @@
 <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-          <rect x="50" y="50" width="200" height="200" fill="blue" />
-          <text x="50%" y="50%" text-anchor="middle" fill="white">MAD</text>
-        </svg>
+        
+        <circle cx="50" cy="50" r="40" fill="red" /> <!-- Render the shape -->
+        <text x="150" y="100" text-anchor="middle" alignment-baseline="middle" fill="blue">blu</text>
+      
+      </svg>
